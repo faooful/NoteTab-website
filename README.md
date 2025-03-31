@@ -1,2 +1,0 @@
-# NoteTab-webiste
-# NoteTab-website
