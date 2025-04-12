@@ -1,11 +1,228 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en" data-theme="light">
+<head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
-    <title></title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-  </body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteTab - Transform your notes into organized cards</title>
+    <meta name="description" content="NoteTab is a browser extension that automatically converts your notes into color-coded cards with smart syntax recognition. Perfect for research, learning, and organizing your thoughts.">
+    <meta name="keywords" content="note taking, browser extension, productivity, organization, markdown, syntax highlighting">
+    <meta name="author" content="NoteTab">
+    <meta property="og:title" content="NoteTab - Transform your notes into organized cards">
+    <meta property="og:description" content="Automatically convert your notes into color-coded cards with smart syntax recognition. Perfect for research, learning, and organizing your thoughts.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://notetab.app">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-left">
+                <a href="/" class="logo">
+                    <img src="NoteTab/icons/icon128.png" alt="NoteTab Logo" width="32" height="32">
+                    NoteTab
+                </a>
+            </div>
+            <div class="nav-right">
+                <button class="theme-toggle">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path class="moon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        <circle class="sun" cx="12" cy="12" r="5"></circle>
+                        <line class="sun-beam" x1="12" y1="1" x2="12" y2="3"></line>
+                        <line class="sun-beam" x1="12" y1="21" x2="12" y2="23"></line>
+                        <line class="sun-beam" x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line class="sun-beam" x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line class="sun-beam" x1="1" y1="12" x2="3" y2="12"></line>
+                        <line class="sun-beam" x1="21" y1="12" x2="23" y2="12"></line>
+                        <line class="sun-beam" x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line class="sun-beam" x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <a href="https://chromewebstore.google.com/detail/note-cards/oodhnfomfokcaglcblifhaofcffkpdhh?authuser=0&hl=en-GB" class="button-primary" target="_blank">
+                    <img src="img/chrome.svg" alt="Chrome" class="chrome-logo" width="24" height="24">
+                    Get NoteTab
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container split-layout">
+                <div class="hero-content">
+                    <h1>Transform notes<br>in a completely<br>new way.</h1>
+                    <p class="subtitle">
+                        Smart syntax recognition, color-coded cards,<br>
+                        all in your new tab.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="https://chromewebstore.google.com/detail/note-cards/oodhnfomfokcaglcblifhaofcffkpdhh?authuser=0&hl=en-GB" class="button-primary" target="_blank">
+                            <img src="img/chrome.svg" alt="Chrome" class="chrome-logo" width="24" height="24">
+                            Get NoteTab
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="browser-window">
+                        <div class="browser-header">
+                            <div class="browser-controls">
+                                <span class="browser-dot"></span>
+                                <span class="browser-dot"></span>
+                                <span class="browser-dot"></span>
+                            </div>
+                            <div class="browser-tabs">
+                                <div class="browser-tab active">New Tab</div>
+                            </div>
+                        </div>
+                        <div class="browser-toolbar">
+                            <div class="browser-actions">
+                                <span class="browser-arrow">←</span>
+                                <span class="browser-arrow">→</span>
+                                <span class="browser-refresh">↻</span>
+                            </div>
+                            <div class="browser-address">
+                                <span class="browser-lock">🔒</span>
+                                <span class="browser-url">chrome://newtab</span>
+                            </div>
+                        </div>
+                        <div class="browser-content">
+                            <div class="syntax-cards">
+                                <div class="syntax-group">
+                                    <div class="syntax-text">! Markdown is supported</div>
+                                    <div class="card insight-card">
+                                        <div class="card-content">
+                                            <div class="card-text">Markdown is supported</div>
+                                            <div class="card-label">INSIGHT</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="syntax-group">
+                                    <div class="syntax-text">> "The best way to predict the future is to invent it."</div>
+                                    <div class="card quote-card">
+                                        <div class="card-content">
+                                            <div class="card-text">"The best way to predict the future is to invent it."</div>
+                                            <div class="card-label">QUOTE</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="syntax-group">
+                                    <div class="syntax-text">* Review the documentation</div>
+                                    <div class="card action-card">
+                                        <div class="card-content">
+                                            <div class="card-text">Review the documentation</div>
+                                            <div class="card-label">ACTION</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="syntax-flow">
+            <div class="container">
+                <h2>How it works</h2>
+                <div class="syntax-legend">
+                    <div class="legend-item">
+                        <div class="legend-icon question-icon">Q:</div>
+                        <div class="legend-text">Question</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon quote-icon">></div>
+                        <div class="legend-text">Quote</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon insight-icon">!</div>
+                        <div class="legend-text">Insight</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon action-icon">*</div>
+                        <div class="legend-text">Action</div>
+                    </div>
+                </div>
+                <div class="curve-separator">
+                    <div class="line"></div>
+                </div>
+                <div class="syntax-cards">
+                    <div class="syntax-group">
+                        <div class="syntax-text">! Markdown is supported</div>
+                        <div class="card insight-card">
+                            <div class="card-content">
+                                <div class="card-text">Markdown is supported</div>
+                                <div class="card-label">INSIGHT</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="syntax-group">
+                        <div class="syntax-text">> "The best way to predict the future is to invent it."</div>
+                        <div class="card quote-card">
+                            <div class="card-content">
+                                <div class="card-text">"The best way to predict the future is to invent it."</div>
+                                <div class="card-label">QUOTE</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="syntax-group">
+                        <div class="syntax-text">* Review the documentation</div>
+                        <div class="card action-card">
+                            <div class="card-content">
+                                <div class="card-text">Review the documentation</div>
+                                <div class="card-label">ACTION</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="container">
+                <h2>Ready to organize your notes?</h2>
+                <a href="https://chromewebstore.google.com/detail/note-cards/oodhnfomfokcaglcblifhaofcffkpdhh?authuser=0&hl=en-GB" class="button-primary" target="_blank">
+                    <img src="img/chrome.svg" alt="Chrome" class="chrome-logo" width="24" height="24">
+                    Get NoteTab
+                </a>
+            </div>
+        </section>
+    </main>
+    <script>
+        // Theme switching functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Set initial theme based on system preference
+        document.documentElement.setAttribute('data-theme', prefersDark.matches ? 'dark' : 'light');
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
+            // Store theme preference
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        // Check for stored theme preference
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme) {
+            document.documentElement.setAttribute('data-theme', storedTheme);
+        }
+        
+        // Listen for system theme changes
+        prefersDark.addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            }
+        });
+    </script>
+</body>
 </html>
