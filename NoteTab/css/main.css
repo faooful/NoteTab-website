@@ -1,0 +1,1029 @@
+/* Add CSS variables at the top of the file */
+:root {
+  /* Light mode colors (default) */
+  --color-bg: #ffffff;
+  --color-text: #333333;
+  --color-border: #e0e0e0;
+  --color-card-shadow: rgba(0, 0, 0, 0.1);
+  --color-button-bg: #ffffff;
+  --color-button-text: #666666;
+  --color-button-border: #e0e0e0;
+  --color-button-hover: #f5f5f5;
+  
+  /* Card and syntax colors - same for both modes */
+  --color-question-bg: #dbeafe;
+  --color-question-text: #1e40af;
+  --color-quote-bg: #fee2e2;
+  --color-quote-text: #991b1b;
+  --color-insight-bg: #f3e8ff;
+  --color-insight-text: #6b21a8;
+  --color-action-bg: #dcfce7;
+  --color-action-text: #166534;
+  
+  /* Other variables */
+  --radius-lg: 12px;
+  --spacing-lg: 1.5rem;
+  --transition-base: all 0.2s ease;
+  --font-sans: 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+}
+
+/* Dark mode colors - only update the UI elements, not the cards */
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-text: #e0e0e0;
+  --color-border: #333333;
+  --color-card-shadow: rgba(0, 0, 0, 0.3);
+  --color-button-bg: #2d2d2d;
+  --color-button-text: #e0e0e0;
+  --color-button-border: #404040;
+  --color-button-hover: #404040;
+  
+  /* Remove the dark mode card colors to use the same ones from light mode */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  max-width: none;
+  font-family: var(--font-sans);
+  overflow: hidden;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+#main-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+#left-panel {
+  width: 50%;
+  height: 100vh;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+}
+
+#notepad {
+  height: 100%;
+  padding: var(--spacing-lg);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: min-content;
+  gap: var(--spacing-lg);
+  align-content: start;
+  overflow-y: auto;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#notepad.active {
+  opacity: 1;
+  pointer-events: all;
+  z-index: 3; /* Ensure it's above the textarea when active */
+}
+
+body {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 3rem;
+}
+
+#addTaskBtn {
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-left: auto;
+  z-index: 10;
+}
+
+#taskContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  max-width: 200px;  /* or set your preferred max width */
+}
+
+#taskInput {
+  width: 100%;
+  box-sizing: border-box;
+  /* Add more styles for your textarea here */
+}
+
+#dateContainer {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  z-index: 100;
+  padding-bottom: 24px; 
+}
+
+#date {
+  display: inline-block;
+  font-weight: bold;
+  opacity: .4;
+  color: #5F6368; }
+
+.emoji {
+  height: 1em !important;
+  width: 1em !important;
+  display: inline;
+  margin-right: 10px; }
+
+.card {
+  background-color: var(--color-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  transition: transform 0.3s ease,
+              opacity 0.2s ease,
+              background-color 0.2s ease;
+  height: auto;
+  min-height: fit-content;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: none;
+  box-shadow: 0 2px 8px var(--color-card-shadow);
+  cursor: default;
+  color: var(--color-text);
+}
+
+.card p {
+  margin-top: 8px;
+}
+
+/* Remove or comment out timestamp styles */
+.card small {
+  display: none; /* Or just delete this block entirely */
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.card:active:not(.dragging) {
+  cursor: pointer;
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+.deleteBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.card:hover .deleteBtn {
+  opacity: 1;
+}
+
+#entry-box-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+
+#entryBox {
+  flex-grow: 1;
+  height: 40px;
+  width: 100%;
+  resize: none;
+  background: #EDEDED;
+  border-radius: 8px;
+  line-height: 40px;
+  border: none;
+  outline: none;
+  overflow: auto;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  resize: none;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  position: relative; /* Ensure position context for feedback */
+}
+
+#new-task-label {
+  position: absolute;
+  color: #5F6368;
+  font-weight: bold;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#cmd-shortcut {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.6); /* slightly transparent background */
+  padding: 0 5px;
+  border-radius: 5px;
+  font-size: 0.8em;
+  pointer-events: none; /* ensure it doesn't interfere with textarea interactions */
+}
+
+.colorBtn {
+    position: absolute;
+    top: 16px;
+    right: 60px; /* Position it to the left of delete button */
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    background: none;
+    font-size: 16px;
+}
+
+.card:hover .colorBtn {
+    opacity: 1;
+}
+
+/* Add styles for markdown content */
+.card-content {
+    display: block;
+    flex-grow: 1; /* Make content take up available space */
+    margin-bottom: 12px; /* Add spacing between content and tag */
+}
+
+.card-content p {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.4;
+    color: #333;
+    font-family: var(--font-sans);
+}
+
+/* Style for the secondary text */
+.card-content p:last-child {
+    font-size: 20px;
+    padding-bottom: 16px;
+    opacity: 0.8;
+    line-height: 1.4;
+    color: #000;
+}
+
+.card-content ul, 
+.card-content ol {
+    margin-left: 20px;
+    padding-left: 0;
+}
+
+.card-content h1,
+.card-content h2,
+.card-content h3,
+.card-content h4,
+.card-content h5,
+.card-content h6 {
+    margin: 8px 0;
+}
+
+.resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    cursor: se-resize;
+    background: linear-gradient(135deg, transparent 50%, #ccc 50%);
+    border-radius: 0 0 8px 0;
+}
+
+/* Replace the existing merge animation styles with these simpler ones */
+.merge-animation {
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5) !important;
+    border: 2px solid transparent !important;
+    animation: pulse 1.5s infinite;
+}
+
+.merge-ready {
+    border: 2px solid #007bff !important;
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.7) !important;
+}
+
+.merging-source {
+    opacity: 0.7 !important;
+    transform: scale(0.98) !important;
+    transition: all 0.3s ease;
+}
+
+.merging-target {
+    border: 2px dashed #4a90e2 !important;
+    background: rgba(74, 144, 226, 0.1) !important;
+}
+
+.merge-highlight {
+    border: 2px solid #4a90e2 !important;
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.3) !important;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(0, 123, 255, 0.8); }
+    100% { box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); }
+}
+
+/* Add merge direction indicators */
+.merge-left::before,
+.merge-right::before,
+.merge-top::before,
+.merge-bottom::before {
+    content: '';
+    position: absolute;
+    background: rgba(74, 144, 226, 0.2);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.merge-left::before {
+    left: -10px;
+    top: 0;
+    width: 10px;
+    height: 100%;
+}
+
+.merge-right::before {
+    right: -10px;
+    top: 0;
+    width: 10px;
+    height: 100%;
+}
+
+.merge-top::before {
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+}
+
+.merge-bottom::before {
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+}
+
+.card-group {
+    border: 2px dashed #4a90e2;
+    background: rgba(74, 144, 226, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 10px;
+}
+
+/* Update the action buttons container for better spacing */
+.action-buttons {
+    position: absolute;
+    bottom: -16px;
+    left: -16px;
+    width: 48px;  /* Increased from 40px to give more room */
+    height: 48px;
+    transition: transform 0.3s ease-out;
+    z-index: 100;
+}
+
+.action-button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 32px;  /* Slightly larger buttons */
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: scale(0);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Position buttons with at least 16px spacing between them */
+.card:hover .action-button:nth-child(1) { /* Edit */
+    transform: translate(0, -120px);  /* Moved further up */
+    transition-delay: 0s;
+}
+
+.card:hover .action-button:nth-child(2) { /* Color */
+    transform: translate(85px, -85px);  /* Adjusted diagonal position */
+    transition-delay: 0.05s;
+}
+
+.card:hover .action-button:nth-child(3) { /* Share */
+    transform: translate(120px, 0);  /* Moved further right */
+    transition-delay: 0.1s;
+}
+
+.card:hover .action-button:nth-child(4) { /* Reminder */
+    transform: translate(85px, 85px);
+    transition-delay: 0.15s;
+}
+
+/* Enhanced hover effects for the buttons */
+.action-button:hover {
+    background: #f5f5f5;
+    transform: scale(1.1) !important;  /* Reduced from 1.2 to prevent overlap when scaled */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Add a subtle pop animation */
+@keyframes popOut {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }  /* Reduced from 1.2 to match hover scale */
+    100% { transform: scale(1); }
+}
+
+.card:hover .action-button {
+    animation: popOut 0.3s ease-out forwards;
+}
+
+/* Ensure buttons stay on top of other cards */
+.card:hover {
+    z-index: 1000;
+}
+
+.action-buttons:hover {
+    z-index: 1001;
+}
+
+/* Keep delete button in top right */
+.deleteBtn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 102;
+}
+
+.context-menu {
+    position: fixed;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    min-width: 150px;
+    z-index: 10000; /* Ensure it's above everything else */
+    user-select: none; /* Prevent text selection */
+}
+
+.menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+}
+
+.menu-item:hover {
+    background-color: #f5f5f5;
+}
+
+/* Add sentiment indicator styles */
+.sentiment-tag {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-right: 8px;
+    display: inline-block;
+}
+
+.sentiment-positive {
+    background-color: #E3FCEF;
+    color: #00875A;
+}
+
+.sentiment-neutral {
+    background-color: #F4F5F7;
+    color: #42526E;
+}
+
+.sentiment-negative {
+    background-color: #FFEBE6;
+    color: #DE350B;
+}
+
+/* Add styles for the template selector */
+.template-select {
+    margin-left: 16px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+    background: white;
+    cursor: pointer;
+}
+
+/* Style the insight buttons */
+.insight-buttons {
+    /* ... */
+}
+
+.insight-button {
+    /* ... */
+}
+
+.insight-tag {
+    /* ... */
+}
+
+.highlight-for-tag {
+    /* ... */
+}
+
+/* Remove all the insight-specific tag styles */
+.insight-tag[data-type="pain-point"] {
+    /* ... */
+}
+
+.insight-tag[data-type="feature-request"] {
+    /* ... */
+}
+
+.insight-tag[data-type="workflow"] {
+    /* ... */
+}
+
+.insight-tag[data-type="quote"] {
+    /* ... */
+}
+
+.insight-tag[data-type="observation"] {
+    /* ... */
+}
+
+.insight-tag[data-type="suggestion"] {
+    /* ... */
+}
+
+/* Add these new styles */
+#left-panel {
+    width: 50%;
+    height: 100vh;
+    background: #fff;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.interview-header {
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.interview-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+    font-weight: 500;
+    font-family: var(--font-sans);
+}
+
+#full-text-entry {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    padding: 2em 4em;
+    border: none;
+    font-size: 16px;
+    line-height: 1.5;
+    resize: none;
+    box-sizing: border-box;
+    outline: none;
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    z-index: 1;
+    display: block;
+    color: var(--color-text);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#full-text-entry:focus {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Remove these unused classes:
+.timer-section
+.timer-display
+.timer-controls
+#interview-date
+*/
+
+/* Style the card tag */
+.card-tag {
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-flex;
+    font-family: var(--font-sans);
+    color: #6b7280;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    margin-top: auto; /* Remove fixed margin-top */
+    align-self: flex-start; /* Align tag to the left */
+}
+
+/* Update the card background colors to be lighter */
+.card.question {
+    background-color: var(--color-question-bg);
+    color: var(--color-question-text);
+}
+
+.card.quote {
+    background-color: var(--color-quote-bg);
+    color: var(--color-quote-text);
+}
+
+.card.insight {
+    background-color: var(--color-insight-bg);
+    color: var(--color-insight-text);
+}
+
+.card.action {
+    background-color: var(--color-action-bg);
+    color: var(--color-action-text);
+}
+
+/* Style the timestamp */
+.card small {
+    color: #666;
+    font-size: 11px;
+    margin-bottom: 8px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Add these new styles */
+.syntax-helper {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    min-height: 24px;
+    flex: 1;
+    min-width: 280px;
+}
+
+.syntax-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    height: 24px; /* Match container height */
+}
+
+.syntax-item code {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* Style each type differently */
+.syntax-item.question code {
+    background: var(--color-question-bg);
+    color: var(--color-question-text);
+}
+
+.syntax-item.quote code {
+    background: var(--color-quote-bg);
+    color: var(--color-quote-text);
+}
+
+.syntax-item.insight code {
+    background: var(--color-insight-bg);
+    color: var(--color-insight-text);
+}
+
+.syntax-item.action code {
+    background: var(--color-action-bg);
+    color: var(--color-action-text);
+}
+
+/* Update sorting animation styles */
+.card.sorting {
+    transition: none;
+}
+
+.card.sorting-animated {
+    transition: transform 0.3s ease;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.98);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.card.sorting-complete {
+    animation: popIn 0.3s ease forwards;
+}
+
+/* Update sort controls styles */
+#right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sort-controls {
+    display: flex;
+    gap: 12px;
+    padding: var(--spacing-lg);
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    align-items: center;
+    height: 24px;
+}
+
+.sort-button {
+    padding: 8px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-bg);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--color-text);
+    transition: all 0.15s ease;
+    font-family: var(--font-sans);
+    white-space: nowrap;
+    min-width: fit-content;
+}
+
+.sort-button:hover {
+    background: var(--color-button-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.sort-button:active {
+    transform: translateY(0);
+    background: var(--color-button-bg);
+}
+
+/* Update the textarea selection styles */
+#full-text-entry::selection {
+    background-color: #facc15; /* Yellow highlight */
+    color: #000000; /* Black text for better contrast */
+}
+
+/* Add styles for card dimming */
+.card.dimmed {
+    opacity: 0.4;
+    transform: scale(0.98);
+}
+
+/* Keep the active card at full opacity */
+.card.active {
+    opacity: 1;
+    transform: none;
+    z-index: 2;
+}
+
+/* Update the export dropdown styles */
+.export-dropdown {
+    position: relative;
+    min-width: fit-content;
+}
+
+.export-button {
+    padding: 8px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-bg);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--color-text);
+    transition: all 0.2s ease;
+    font-family: var(--font-sans);
+}
+
+.export-button:hover {
+    background: var(--color-button-hover);
+    border-color: var(--color-border);
+}
+
+.export-options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: none;
+    z-index: 1000;
+    min-width: 180px;
+}
+
+.export-option {
+    display: block;
+    width: 100%;
+    padding: 8px 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 14px;
+    color: var(--color-text);
+    font-family: var(--font-sans);
+}
+
+.export-option:hover {
+    background: var(--color-button-hover);
+}
+
+/* Show the menu when the show class is present */
+.export-options.show {
+    display: block;
+}
+
+/* Add smooth scrolling to notepad */
+#notepad::-webkit-scrollbar {
+    width: 8px;
+}
+
+#notepad::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#notepad::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+#notepad::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* Add styles for the inline feedback */
+.inline-feedback {
+    position: absolute;
+    pointer-events: none;
+    animation: fadeInOut 1.3s ease forwards;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(5px); }
+    20% { opacity: 1; transform: translateY(0); }
+    80% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-5px); }
+}
+
+/* Update the content area to be a single panel */
+.content-area {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Show notepad when cards are active */
+#notepad.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Update the header to be at the top */
+.controls-header {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-lg);
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    min-height: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+    row-gap: 16px;
+}
+
+/* Add a toggle button for switching between text and cards */
+.view-toggle {
+    padding: 8px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-bg);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--color-text);
+    transition: all 0.15s ease;
+    font-family: var(--font-sans);
+    white-space: nowrap;
+    min-width: fit-content;
+}
+
+.view-toggle:hover {
+    background: var(--color-button-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Hide textarea when notepad is active */
+#notepad.active ~ #full-text-entry {
+    display: none;
+}
+
+/* Update the theme toggle button styles */
+.theme-toggle {
+    padding: 8px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-button-bg);
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--color-text);
+    transition: all 0.15s ease;
+    font-family: var(--font-sans);
+    white-space: nowrap;
+    min-width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-toggle:hover {
+    background: var(--color-button-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Remove these properties from the dark mode theme toggle */
+[data-theme="dark"] .theme-toggle {
+    /* Remove the different border and text color for consistency */
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+
+/* Create a controls group for the right-side buttons */
+.controls-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-left: auto;
+}
+
+/* Update the @font-face declarations for TTF files */
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Light.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
